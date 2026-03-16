@@ -1,0 +1,282 @@
+TASK  2. Security Monitoring Basics:
+
+1.  Explanation 
+Security Monitoring is the continuous observation of system, network, and application activity to detect security threats.
+A SOC analyst watches logs and network traffic to find signs of:
+•	Unauthorized login attempts
+•	Malware activity
+•	Suspicious network traffic
+•	Policy violations
+•	Data exfiltration
+SOC analysts mainly rely on logs and network traffic.
+Two major monitoring sources:
+1. Log Monitoring
+Logs come from:
+•	Operating systems
+•	Firewalls
+•	Servers
+•	Applications
+•	Security tools
+These logs are collected into a SIEM system.
+Example tools:
+•	Splunk
+•	Elastic SIEM
+The SIEM analyzes logs and generates alerts.
+
+2. Network Traffic Monitoring
+Network monitoring helps detect:
+•	Suspicious connections
+•	Malware communication
+•	Data exfiltration
+•	Port scanning
+Common tool:
+•	Wireshark
+Wireshark allows analysts to capture and analyze packets.
+
+2. Key Security Monitoring Objectives
+Detect Anomalies
+Example:
+Normal login location → India
+Suddenly login from → Russia
+SOC should detect this anomaly.
+
+Detect Unauthorized Access
+Example:
+Multiple failed SSH login attempts
+Possible Brute-force attack
+
+Detect Policy Violations
+Example:
+Employee downloading company data to external storage.
+
+3. Key Metrics Used in SOC
+Mean Time to Detect (MTTD)
+Time taken to detect an attack.
+Example:
+Attack starts → 10:00
+SOC detects → 10:05
+MTTD = 5 minutes
+Lower MTTD = Better SOC performance
+
+False Positives
+Alert triggered but not a real attack.
+Example:
+Security tool flags admin login as suspicious.
+
+False Negatives
+Real attack happened but SOC missed it.
+Example:
+Malware communication not detected.
+False negatives are very dangerous.
+
+4. Tools Required for Lab
+For your project, we will use open-source SOC tools.
+Tool	Purpose
+Elastic SIEM	Log monitoring
+Wireshark	Network traffic analysis
+Kali Linux / Ubuntu VM	Lab environment
+Boss of the SOC dataset	Attack log dataset
+
+5. Lab Environment Setup
+Recommended environment:
+SOC LAB
+
+Attacker Machine
+(Kali Linux)
+
+↓
+
+Target Machine
+(Ubuntu)
+
+↓
+
+Monitoring System
+Elastic SIEM
+Wireshark
+
+How to do the TASK 
+
+STEP 1 — Start Your Virtual Machine
+If you are using VirtualBox / VMware
+
+Start:
+
+Ubuntu / Kali Linux VM
+
+STEP 2 — Install Wireshark
+
+Open terminal.
+
+Run:
+
+sudo apt update
+
+Then install:
+
+sudo apt install wireshark -y
+
+During installation you will see:
+
+Should non-superusers be able to capture packets?
+
+Select:
+
+YES
+
+Verify Installation
+
+Run:
+
+wireshark --version
+
+Expected output:
+
+Wireshark 4.x.x
+
+STEP 3 — Launch Wireshark
+
+Run:
+
+wireshark
+
+Or open from:
+
+Applications → Internet → Wireshark
+
+You will see the interface showing network interfaces.
+
+Examples:
+
+eth0
+ens33
+wlan0
+lo
+
+STEP 4 — Start Packet Capture
+
+Click the active interface.
+
+Usually:
+
+eth0
+ens33
+wlan0
+
+Then click:
+
+Start Capture (blue shark fin icon)
+
+Packets will start flowing.
+
+Columns will appear:
+
+No
+Time
+Source
+Destination
+Protocol
+Length
+Info
+
+STEP 5 — Generate Network Traffic
+
+To see packets, generate traffic.
+
+Open browser and visit:
+
+google.com
+youtube.com
+github.com
+
+OR run ping.
+
+ping google.com
+
+This generates DNS + ICMP traffic.
+
+STEP 6 — Apply Traffic Filters
+
+Filters help analysts find suspicious activity quickly.
+
+Filter bar at top.
+
+Filter 1 — DNS Traffic
+
+Type:
+
+dns
+
+Press Enter.
+
+You will see DNS requests.
+
+Example:
+
+Standard query A google.com
+
+Filter 2 — HTTP Traffic
+
+Type:
+
+http
+
+Filter 3 — ICMP (Ping)
+
+Type:
+
+icmp
+
+If you ran:
+
+ping google.com
+
+You will see:
+
+Echo Request
+Echo Reply
+
+STEP 7 — Inspect Packet Details
+
+Click any packet.
+
+Bottom panel shows:
+
+Ethernet Layer
+IP Layer
+TCP Layer
+Application Layer
+
+This helps SOC analysts understand communication details.
+
+STEP 8 — Identify Suspicious Pattern (Example)
+
+SOC analysts look for:
+
+Many DNS queries
+
+Unknown IP communication
+
+Port scanning
+
+Large traffic spikes
+
+Example suspicious indicator:
+
+Multiple DNS queries to unknown domain
+
+STEP 9 — Save Packet Capture
+
+SOC analysts store logs.
+
+Save capture.
+
+Menu:
+
+File → Save As
+
+Save as:
+
+network_capture.pcap
+
+
